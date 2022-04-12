@@ -21,91 +21,32 @@ searchButton.addEventListener("click", fetchGeo);
 
 
 
+
 function fetchGeo() {
   var userInputValue = userInput.value.trim();
   if(userInputValue) {
-    fetch(`http://api.openweathermap.org/geo/1.0/direct?appid=a538c2c806727f5ba0a2671b19e32a90&q=${userInputValue}&=&=`, {
-      "method": "GET",
-      "headers": {}
-    })
-    .then(response => {
-      console.log(response);
-    })
-    .catch(err => {
-      console.error(err);
-    }); 
-    
-    
-    }
-  console.log(userInputValue);
+  fetch(`http://api.openweathermap.org/geo/1.0/direct?appid=a538c2c806727f5ba0a2671b19e32a90&q=${userInputValue}&=&=`)
+  .then(function(res) {
+    return res.json()
+  })
+  .then(function(data) {
+      console.log(data);
+      oneCall(data)
+  })
+  }
 }
 
 
-
-
-
-
-
-// function geolocation() {
-//   var userInputValue = userInput.value.trim();
-// fetch(`http://api.openweathermap.org/geo/1.0/direct?appid=a538c2c806727f5ba0a2671b19e32a90&q=${userInputValue}&=&=`, {
-//   "method": "GET",
-//   "headers": {}
-// })
-// .then(response => {
-//   console.log(response);
-// })
-// .catch(err => {
-//   console.error(err);
-// }); 
-
-
-// }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-// fetch for one call api
-// fetch("https://api.openweathermap.org/data/2.5/onecall?appid=a538c2c806727f5ba0a2671b19e32a90&lat=28.5421109&lon=-81.3790304&units=imperial", {
-//   "method": "GET",
-//   "headers": {}
-// })
-// .then(response => {
-//   console.log(response);
-// })
-// .catch(err => {
-//   console.error(err);
-// });
-
-
-
-
-// // fetch request for geo location api
-// fetch("http://api.openweathermap.org/geo/1.0/direct?appid=a538c2c806727f5ba0a2671b19e32a90&q=orlando&=&=", {
-//   "method": "GET",
-//   "headers": {}
-// })
-// .then(response => {
-//   console.log(response);
-// })
-// .catch(err => {
-//   console.error(err);
-// });
+function oneCall(data) {
+  var latitude = data[0].lat
+  var longitude = data[0].lon
+  console.log(latitude)
+  console.log(longitude);
+    fetch(`https://api.openweathermap.org/data/2.5/onecall?appid=a538c2c806727f5ba0a2671b19e32a90&lat=${latitude}&lon=${longitude}&units=imperial`)
+    .then(function(res) {
+      return res.json()
+    })
+    .then(function(data) {
+        console.log(data);
+    })
+  }
