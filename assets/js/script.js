@@ -9,11 +9,16 @@
 // information is saved in local storage
 // append buttons for previous search history
 
+
+
 var userInput = document.querySelector("#search-box")
 
 var searchButton = document.querySelector("#search-button")
 
 searchButton.addEventListener("click", fetchGeo);
+
+
+var cardDates = document.querySelector(".card-title")
 
 
 
@@ -36,7 +41,6 @@ function fetchGeo() {
   }
 }
 
-
 function oneCall(data) {
   var latitude = data[0].lat
   var longitude = data[0].lon
@@ -47,6 +51,23 @@ function oneCall(data) {
       return res.json()
     })
     .then(function(data) {
-        console.log(data);
+        console.log(data)
+        weatherDates(data)
     })
+  }
+
+
+
+  function weatherDates(data) {
+
+    for (let i = 0; i < 6; i++) {
+      var seconds = data.daily[i].dt;
+      if( seconds > i) {
+        var milliseconds = seconds * 1000
+        var dataObject = new Date(milliseconds)
+        var normalDate = dataObject.toLocaleDateString()
+        console.log(normalDate)
+        cardDates.textContent = normalDate
+      }
+    }
   }
